@@ -25,12 +25,17 @@ Window {
     function appendToCentralPointModel(lat, lon) {
            centralPointModel.append({"latitude": lat, "longitude": lon});
        }
+
     Map {
         id: map
         anchors.fill: parent
         plugin: Plugin {name: "mapboxgl"}
         center: QtPositioning.coordinate(50.527887655789385, 30.614663315058465)
         zoomLevel: 14
+
+        PanelIntrument {
+            id: panelIntrument
+        }
 
         MouseArea {
             anchors.fill: parent

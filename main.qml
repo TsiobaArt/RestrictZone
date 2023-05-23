@@ -11,6 +11,77 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello World")
+    function pointInPolygon(point, polygon) {
+        var crossings = 0
+        var count = polygon.count
+        for (var i = 0; i < count; i++) {
+            var a = polygon.get(i)
+            var j = i + 1
+            if (j >= count) {
+                j = 0
+            }
+            var b = polygon.get(j)
+            if ((a.y > point.y) != (b.y > point.y)) {
+                var atX = (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x
+                if (point.x < atX) {
+                    crossings++
+                }
+            }
+        }
+        return (crossings % 2) > 0
+    }
+//    function calculateCentroid(polygon) {
+//        var area = 0;
+//        var centroid = {x: 0, y: 0};
+
+//        for (var i = 0; i < polygon.count; i++) {
+//            var p1 = polygon.get(i);
+//            var p2 = polygon.get((i + 1) % polygon.count);
+
+//            var f = p1.latitude * p2.longitude - p2.latitude * p1.longitude;
+//            centroid.x += (p1.latitude + p2.latitude) * f;
+//            centroid.y += (p1.longitude + p2.longitude) * f;
+//            area += f / 2;
+//        }
+
+//        centroid.x /= 6 * area;
+//        centroid.y /= 6 * area;
+//        return {latitude: centroid.x, longitude: centroid.y};
+//    }
+
+    function calculateCentroid(polygon) {
+        var centroid = {x: 0, y: 0};
+        var signedArea = 0;
+        var x0 = 0;
+        var y0 = 0;
+        var x1 = 0;
+        var y1 = 0;
+        var a = 0.0;
+        for (var i = 0; i < polygon.length - 1; ++i) {
+            x0 = polygon[i].x;
+            y0 = polygon[i].y;
+            x1 = polygon[i+1].x;
+            y1 = polygon[i+1].y;
+            a = x0*y1 - x1*y0;
+            signedArea += a;
+            centroid.x += (x0 + x1)*a;
+            centroid.y += (y0 + y1)*a;
+        }
+        x0 = polygon[i].x;
+        y0 = polygon[i].y;
+        x1 = polygon[0].x;
+        y1 = polygon[0].y;
+        a = x0*y1 - x1*y0;
+        signedArea += a;
+        centroid.x += (x0 + x1)*a;
+        centroid.y += (y0 + y1)*a;
+
+        signedArea *= 0.5;
+        centroid.x /= (6.0*signedArea);
+        centroid.y /= (6.0*signedArea);
+
+        return centroid;
+    }
 
     ListModel {id: lineModel}
     ListModel {id: centralPointModel}
@@ -55,6 +126,25 @@ Window {
                     coordinates.push(QtPositioning.coordinate(item.latitude, item.longitude));
                 }
                 return coordinates;
+            }
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    var polygonPoints = [];
+                     for (var i = 0; i < lineModel.count; i++) {
+                         var item = lineModel.get(i);
+                         polygonPoints.push({x: item.longitude, y: item.latitude});
+                     }
+                     if (centralPointModel.count > 0) {
+                         var centroid = calculateCentroid(polygonPoints);
+                         console.log("Test: " + pointInPolygon({x: centralPointModel.get(0).longitude, y: centralPointModel.get(0).latitude}, polygonPoints));
+                         console.log("calculateCentroid: Latitude: " + centroid.y + ", Longitude: " + centroid.x);
+                         centralPointModel.set(0, {"latitude": centroid.y, "longitude": centroid.x})
+//                         lineModel.set(model.index, {"latitude": coorinate3.latitude, "longitude": coorinate3.longitude});
+
+                     }
+                }
             }
         }
         MapPolyline {

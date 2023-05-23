@@ -15,12 +15,15 @@ Rectangle{
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     anchors.topMargin: 10
-    opacity: 0.8
+    opacity: 0.9
+    MouseArea {
+    anchors.fill: parent
+    }
 
     Row {
         anchors.fill: parent
         spacing: 5
-        anchors.leftMargin: 10
+        leftPadding: 2
         Rectangle {
             id: butSave
             width: parent.width / 3 - 5
@@ -44,17 +47,19 @@ Rectangle{
                 hoverEnabled: true
 
                 onEntered: {
+                    butSave.border.color = "lightblue"
                 }
 
                 onExited: {
+                    butSave.border.color = "white"
                 }
 
                 onPressed: {
-
+                    butSave.scale = 0.9
                 }
 
                 onReleased: {
-
+                    butSave.scale = 1
                 }
             }
         }
@@ -81,17 +86,21 @@ Rectangle{
                 hoverEnabled: true
 
                 onEntered: {
+                    butClear.border.color = "lightblue"
                 }
 
                 onExited: {
+                    butClear.border.color = "white"
                 }
 
                 onPressed: {
-
+                    butClear.scale = 0.9
                 }
 
                 onReleased: {
-
+                    butClear.scale = 1
+                    lineModel.clear()
+                    centralPointModel.clear()
                 }
             }
         }
@@ -117,17 +126,19 @@ Rectangle{
                 hoverEnabled: true
 
                 onEntered: {
+                    butCenterPoligon.border.color = "lightblue"
                 }
 
                 onExited: {
+                    butCenterPoligon.border.color = "white"
                 }
 
                 onPressed: {
-
+                    butCenterPoligon.scale = 0.9
                 }
 
                 onReleased: {
-
+                    butCenterPoligon.scale = 1
                 }
             }
         }

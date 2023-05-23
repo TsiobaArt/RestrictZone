@@ -26,6 +26,7 @@ Window {
            centralPointModel.append({"latitude": lat, "longitude": lon});
        }
 
+
     Map {
         id: map
         anchors.fill: parent
@@ -33,9 +34,6 @@ Window {
         center: QtPositioning.coordinate(50.527887655789385, 30.614663315058465)
         zoomLevel: 14
 
-        PanelIntrument {
-            id: panelIntrument
-        }
 
         MouseArea {
             anchors.fill: parent
@@ -80,54 +78,8 @@ Window {
                 return coordinates;
             }
         }
-        MapItemView {
-            model: centralPointModel
-            delegate: MapQuickItem {
-                id: centralPoint
-                coordinate: QtPositioning.coordinate(model.latitude, model.longitude)
-                anchorPoint.x: circle.width / 2
-                anchorPoint.y: circle.height / 2
-                sourceItem: Rectangle {
-                    id: circle
-                    width: 28
-                    height: 28
-                    color: 'lightblue'
-                    radius: width / 2
-                    Rectangle {
-                        width: 22
-                        height: 22
-                        radius: 22
-                        anchors.centerIn: parent
-                        color: "black"
-
-                        Rectangle {
-                            width: 16
-                            height: 16
-                            radius: 16
-                            anchors.centerIn: parent
-                            color: "white"
-                            Text {
-                                text: "C"
-                                color: "black"
-                                font.pixelSize: 10
-                                anchors.centerIn: parent
-                            }
-                        }
-                    }
-                    MouseArea {
-                        id: centralPointMouseArea
-                        anchors.fill: parent
-                        drag.target: centralPoint
-                        drag.axis: Drag.XAndYAxis
-                        onReleased: {
-                            var movedCoordinate = centralPoint.coordinate;
-                            centralPointModel.set(0, {"latitude": movedCoordinate.latitude, "longitude": movedCoordinate.longitude});
-                        }
-                    }
-                }
-
-              }
-          }
+        CentralPoint {
+        }
         MapItemView {
             id: itemViewLine
             model: lineModel
@@ -201,7 +153,6 @@ Window {
                     onPositionChanged: {
                         var coorinate3 = parent.coordinate
                         lineModel.set(model.index, {"latitude": coorinate3.latitude, "longitude": coorinate3.longitude});
-
                     }
                 }
 
@@ -232,6 +183,9 @@ Window {
                     }
                 }
             }
+        }
+        PanelIntrument {
+            id: panelIntrument
         }
     }
 }

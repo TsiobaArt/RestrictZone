@@ -15,17 +15,12 @@ Window {
     ListModel {id: lineModel}
     ListModel {id: centralPointModel}
 
-
     function appendToLineModel(lat, lon) {
-
         lineModel.append({"latitude": lat, "longitude": lon});
-
     }
-
     function appendToCentralPointModel(lat, lon) {
-           centralPointModel.append({"latitude": lat, "longitude": lon});
-       }
-
+        centralPointModel.append({"latitude": lat, "longitude": lon});
+    }
 
     Map {
         id: map
@@ -40,11 +35,11 @@ Window {
             hoverEnabled: true
             onDoubleClicked: {
                 var clickedCoordinate = map.toCoordinate(Qt.point(mouse.x, mouse.y))
-                            if (centralPointModel.count === 0) {
-                                appendToCentralPointModel(clickedCoordinate.latitude, clickedCoordinate.longitude)
-                            } else {
-                                appendToLineModel(clickedCoordinate.latitude, clickedCoordinate.longitude)
-                            }
+                if (centralPointModel.count === 0) {
+                    appendToCentralPointModel(clickedCoordinate.latitude, clickedCoordinate.longitude)
+                } else {
+                    appendToLineModel(clickedCoordinate.latitude, clickedCoordinate.longitude)
+                }
             }
         }
         MapPolygon {

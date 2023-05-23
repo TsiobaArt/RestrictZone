@@ -66,7 +66,7 @@ MapItemView {
             Menu {
                 id: markerMenuCentalPoint
                 Timer { // Додав таймер для того щоб маркери видалялися перш ніж до нього можгна буде звернутися
-                    id: timerDeleteMarker;
+                    id: timerDeleteMarker1;
                     interval: 200;
                     onTriggered: {
                         centralPointModel.clear()
@@ -77,7 +77,7 @@ MapItemView {
                     text: "Delete"
                     onTriggered: {
                         centralPointMouseArea.enabled = false
-                        timerDeleteMarker.start()
+                        timerDeleteMarker1.start()
                         menu.close();
                     }
                 }

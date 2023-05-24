@@ -1,4 +1,5 @@
 #include "centoidcalc.h"
+#include "qvariant.h"
 
 CentoidCalc::CentoidCalc(QObject *parent)
     : QObject{parent}
@@ -68,4 +69,72 @@ QPointF CentoidCalc::calculateInnerCentoid(const QPolygonF &polygon, int numIter
 
     // Возвращаем найденный центроид внутренней точки
     return innerCentroid;
+}
+
+QPointF CentoidCalc::calculateGeodesicCentroid(const QPolygonF  &polygon)
+{
+    int n = polygon.size();
+    double totalArea = 0.0;
+    double centroidLat = 0.0;
+    double centroidLong = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        int j = (i + 1) % n;
+
+        double p1Long = polygon[i].x() * M_PI / 180.0; // Convert to radians
+        double p1Lat = polygon[i].y() * M_PI / 180.0; // Convert to radians
+        double p2Long = polygon[j].x() * M_PI / 180.0; // Convert to radians
+        double p2Lat = polygon[j].y() * M_PI / 180.0; // Convert to radians
+
+        double dLong = p2Long - p1Long;
+        double area = p1Lat * sin(dLong) + p2Lat * sin(dLong);
+
+        centroidLat += (p1Lat + p2Lat) * area;
+        centroidLong += (p1Long + p2Long) * area;
+
+        totalArea += area;
+    }
+
+    totalArea *= 0.5;
+    centroidLat /= (3.0 * totalArea);
+    centroidLong /= (3.0 * totalArea);
+
+    // Convert back to degrees
+    centroidLat *= 180.0 / M_PI;
+    centroidLong *= 180.0 / M_PI;
+
+    return QPointF(centroidLat,centroidLong);
+}
+QPointF CentoidCalc::calculateInteriorPoint(const QPolygonF &polygon)
+{
+    // Рандомно обираємо чотирикутник всередині полігона
+    int n = polygon.size();
+    int i1 = qrand() % n;
+    int i2 = (i1 + qrand() % (n-2) + 1) % n;
+    int i3 = (i2 + qrand() % (n-2) + 1) % n;
+    int i4 = (i3 + qrand() % (n-2) + 1) % n;
+
+    // Знаходимо дві діагоналі чотирикутника
+    QLineF diag1(polygon[i1], polygon[i3]);
+    QLineF diag2(polygon[i2], polygon[i4]);
+
+    // Знаходимо точку перетину діагоналей
+    QPointF interiorPoint;
+    QLineF::IntersectType intersectType = diag1.intersect(diag2, &interiorPoint);
+
+    // Якщо точка перетину визначена, повертаємо її
+    if (intersectType == QLineF::BoundedIntersection) {
+        return interiorPoint;
+    }
+
+    // Якщо точка перетину не визначена, повторюємо спробу
+    return calculateInteriorPoint(polygon);
+}
+QPolygonF CentoidCalc::createPolygon(const QVariantList& points) {
+    QPolygonF polygon;
+    for (const QVariant& var : points) {
+        QPointF pt = var.toPointF(); // Convert QVariant to QPointF
+        polygon << pt;
+    }
+    return polygon;
 }

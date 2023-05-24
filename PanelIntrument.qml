@@ -8,7 +8,7 @@ import Qt.labs.platform 1.0
 
 Rectangle{
     id: panelIntrument
-    width: 300
+    width: 550
     height: 50
     color: "#A6A1A1"
     radius: 10
@@ -26,7 +26,7 @@ Rectangle{
         leftPadding: 2
         Rectangle {
             id: butSave
-            width: parent.width / 3 - 5
+            width: parent.width / 5 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -65,7 +65,7 @@ Rectangle{
         }
         Rectangle {
             id: butClear
-            width: parent.width / 3 - 5
+            width: parent.width / 5 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -106,7 +106,7 @@ Rectangle{
         }
         Rectangle {
             id: butCenterPoligon
-            width: parent.width / 3 - 5
+            width: parent.width / 5 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -139,6 +139,82 @@ Rectangle{
 
                 onReleased: {
                     butCenterPoligon.scale = 1
+                }
+            }
+        }
+        Rectangle {
+            id: butCenterPoligonCpp
+            width: parent.width / 5 - 5
+            height: parent.height - 10
+            anchors.verticalCenter: parent.verticalCenter
+            color: parent.parent.color
+            radius: 10
+            border.width: 2
+            border.color:  "white"
+
+            Text {
+                id: textbutCenterPoligonCpp
+                text: qsTr("ПолCpp.")
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 15
+            }
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onEntered: {
+                    butCenterPoligonCpp.border.color = "lightblue"
+                }
+
+                onExited: {
+                    butCenterPoligonCpp.border.color = "white"
+                }
+
+                onPressed: {
+                    butCenterPoligonCpp.scale = 0.9
+                }
+
+                onReleased: {
+                    butCenterPoligonCpp.scale = 1
+                }
+            }
+        }
+        Rectangle {
+            id: butCenterPoligonCppInner
+            width: parent.width / 5 - 5
+            height: parent.height - 10
+            anchors.verticalCenter: parent.verticalCenter
+            color: parent.parent.color
+            radius: 10
+            border.width: 2
+            border.color:  "white"
+
+            Text {
+                id: textbutCenterPoligonCppInner
+                text: qsTr("ПолCppInner.")
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 15
+            }
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onEntered: {
+                    butCenterPoligonCppInner.border.color = "lightblue"
+                }
+
+                onExited: {
+                    butCenterPoligonCppInner.border.color = "white"
+                }
+
+                onPressed: {
+                    butCenterPoligonCppInner.scale = 0.9
+                }
+
+                onReleased: {
+                    butCenterPoligonCppInner.scale = 1
                 }
             }
         }

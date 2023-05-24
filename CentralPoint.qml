@@ -17,7 +17,7 @@ MapItemView {
             id: circle
             width: 28
             height: 28
-            color: 'lightblue'
+            color: 'purple'
             radius: width / 2
             Rectangle {
                 width: 22
@@ -33,7 +33,7 @@ MapItemView {
                     anchors.centerIn: parent
                     color: "white"
                     Text {
-                        text: "C"
+                        text: index == 0 ? "C" : (index == centralPointModel.count - 1 ? "I" : "cpp")
                         color: "black"
                         font.pixelSize: 10
                         anchors.centerIn: parent
@@ -55,12 +55,12 @@ MapItemView {
                 onReleased: {
                     if (mouse.button == Qt.LeftButton) {
                     var movedCoordinate = centralPoint.coordinate;
-                    centralPointModel.set(0, {"latitude": movedCoordinate.latitude, "longitude": movedCoordinate.longitude});
+                    centralPointModel.set(model.index, {"latitude": movedCoordinate.latitude, "longitude": movedCoordinate.longitude});
                     }
                 }
                 onPositionChanged: {
                     var movedCoordinate = centralPoint.coordinate;
-                    lineModel.set(model.index, {"latitude": centralPoint.latitude, "longitude": centralPoint.longitude});
+                    centralPointModel.set(model.index, {"latitude": centralPoint.latitude, "longitude": centralPoint.longitude});
                 }
             }
             Menu {

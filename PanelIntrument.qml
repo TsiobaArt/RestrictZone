@@ -8,7 +8,7 @@ import Qt.labs.platform 1.0
 
 Rectangle{
     id: panelIntrument
-    width: 550
+    width: 700
     height: 50
     color: "#A6A1A1"
     radius: 10
@@ -26,7 +26,7 @@ Rectangle{
         leftPadding: 2
         Rectangle {
             id: butSave
-            width: parent.width / 5 - 5
+            width: parent.width / 6 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -65,7 +65,7 @@ Rectangle{
         }
         Rectangle {
             id: butClear
-            width: parent.width / 5 - 5
+            width: parent.width / 6 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -106,7 +106,7 @@ Rectangle{
         }
         Rectangle {
             id: butCenterPoligon
-            width: parent.width / 5 - 5
+            width: parent.width / 6 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -144,7 +144,7 @@ Rectangle{
         }
         Rectangle {
             id: butCenterPoligonCpp
-            width: parent.width / 5 - 5
+            width: parent.width / 6 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -182,7 +182,7 @@ Rectangle{
         }
         Rectangle {
             id: butCenterPoligonCppInner
-            width: parent.width / 5 - 5
+            width: parent.width / 6 - 5
             height: parent.height - 10
             anchors.verticalCenter: parent.verticalCenter
             color: parent.parent.color
@@ -215,6 +215,44 @@ Rectangle{
 
                 onReleased: {
                     butCenterPoligonCppInner.scale = 1
+                }
+            }
+        }
+        Rectangle {
+            id: butCenterPoligonCppGeodesic
+            width: parent.width / 6 - 5
+            height: parent.height - 10
+            anchors.verticalCenter: parent.verticalCenter
+            color: parent.parent.color
+            radius: 10
+            border.width: 2
+            border.color:  "white"
+
+            Text {
+                id: textbutCenterPoligonCppGeodesic
+                text: qsTr("ПолCppGeodesic.")
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 15
+            }
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onEntered: {
+                    butCenterPoligonCppGeodesic.border.color = "lightblue"
+                }
+
+                onExited: {
+                    butCenterPoligonCppGeodesic.border.color = "white"
+                }
+
+                onPressed: {
+                    butCenterPoligonCppGeodesic.scale = 0.9
+                }
+
+                onReleased: {
+                    butCenterPoligonCppGeodesic.scale = 1
                 }
             }
         }

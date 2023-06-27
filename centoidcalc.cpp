@@ -7,7 +7,7 @@ CentoidCalc::CentoidCalc(QObject *parent)
 
 }
 
-QPointF CentoidCalc::calculateCentroid(const QPolygonF &polygon)
+QPointF CentoidCalc::calculateCentroid(const QPolygonF &polygon) //  функція для пошуку центру масс
 {
     int n = polygon.size();
     double area = 0.0;

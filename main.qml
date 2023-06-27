@@ -7,10 +7,11 @@ import Qt.labs.qmlmodels 1.0
 import Qt.labs.platform 1.0
 
 Window {
-    width: 640
+    width: 800
     height: 480
     visible: true
     title: qsTr("Hello World")
+
     function pointInPolygon(point, polygon) {
         var crossings = 0
         var count = polygon.count
@@ -83,16 +84,27 @@ Window {
         return centroid;
     }
 
-    ListModel {id: lineModel}
-    ListModel {id: centralPointModel}
-    ListModel {id: cppCentralPointModel}
-    ListModel {id: cppCentralInnerPointModel}
+    ListModel { id: lineModel }
+    ListModel { id: centralPointModel }
+    ListModel { id: cppCentralPointModel }
+    ListModel { id: cppCentralInnerPointModel }
+    ListModel { id: cppGeodesiccentroidModel }
+    ListModel { id: cppInterioirModel }
 
     function appendToLineModel(lat, lon) {
         lineModel.append({"latitude": lat, "longitude": lon});
     }
     function appendToCentralPointModel(lat, lon) {
         centralPointModel.append({"latitude": lat, "longitude": lon});
+    }
+    function appendCppCentralPointModel(lat, lon) {
+        cppCentralPointModel.append({"latitude": lat, "longitude": lon});
+    }
+    function appendCentralInnerPointModel(lat, lon) {
+        cppCentralInnerPointModel.append({"latitude": lat, "longitude": lon});
+    }
+    function appendCentralGoedisidPointModel(lat, lon) {
+        cppGeodesiccentroidModel.append({"latitude" : lat, "longitude" : lon})
     }
 
     Map {
@@ -143,7 +155,6 @@ Window {
                          console.log("calculateCentroid: Latitude: " + centroid.y + ", Longitude: " + centroid.x);
                          centralPointModel.set(0, {"latitude": centroid.y, "longitude": centroid.x})
 
-                         polygonPoints = [];
 
                          for (var k = 0; k < lineModel.count; k++) {
                              var item2 = lineModel.get(k);
@@ -151,22 +162,22 @@ Window {
                          }
 
 
-                         var qmlPolygon = centoidCalc.createPolygon(polygonPoints);
-                         var centroid2 = centoidCalc.calculateCentroid(qmlPolygon);
+//                         var qmlPolygon = centoidCalc.createPolygon(polygonPoints);
+//                         var centroid2 = centoidCalc.calculateCentroid(qmlPolygon);
 
-                         console.log("Centroid2: Latitude: " + centroid2.y + ", Longitude: " + centroid2.x);
-                         centralPointModel.set(1, {"latitude": centroid2.y, "longitude": centroid2.x})
+//                         console.log("Centroid2: Latitude: " + centroid2.y + ", Longitude: " + centroid2.x);
+//                         centralPointModel.set(1, {"latitude": centroid2.y, "longitude": centroid2.x})
 
-                         var cenroid3 = centoidCalc.calculateInnerCentoid(qmlPolygon)
-                         centralPointModel.set(2, {"latitude": cenroid3.y, "longitude": cenroid3.x})
+//                         var cenroid3 = centoidCalc.calculateInnerCentoid(qmlPolygon)
+//                         centralPointModel.set(2, {"latitude": cenroid3.y, "longitude": cenroid3.x})
 
-                         var cenroid4 = centoidCalc.calculateGeodesicCentroid(qmlPolygon)
-                         console.log ("calculateGeodesicCentroid" +cenroid4.longitude )
-                         centralPointModel.set(3, {"latitude": cenroid4.y, "longitude": cenroid4.x})
+//                         var cenroid4 = centoidCalc.calculateGeodesicCentroid(qmlPolygon)
+//                         console.log ("calculateGeodesicCentroid" +cenroid4.longitude )
+//                         centralPointModel.set(3, {"latitude": cenroid4.y, "longitude": cenroid4.x})
 
-                         var cenroid5 = centoidCalc.calculateInteriorPoint(qmlPolygon)
-                         console.log ("calculateInteriorPoint" +cenroid5.x )
-                         centralPointModel.set(4, {"latitude": cenroid5.y, "longitude": cenroid5.x})
+//                         var cenroid5 = centoidCalc.calculateInteriorPoint(qmlPolygon)
+//                         console.log ("calculateInteriorPoint" +cenroid5.x )
+//                         centralPointModel.set(4, {"latitude": cenroid5.y, "longitude": cenroid5.x})
 
                      }
                 }
@@ -188,6 +199,11 @@ Window {
                 return coordinates;
             }
         }
+
+        MapItemGroup {
+            id: groupPoint
+        }
+
         CentralPoint {
         }
         MapItemView {

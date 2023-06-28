@@ -138,7 +138,38 @@ Rectangle{
                 }
 
                 onReleased: {
-                    butCenterPoligon.scale = 1
+                    var polygonPoints = [];
+                    for (var i = 0; i < lineModel.count; i++) {
+                        var item = lineModel.get(i);
+                        console.log("item longitude" + item.longitude)
+                        polygonPoints.push({x: item.longitude, y: item.latitude});
+                    }
+                    if (polygonPoints.length > 2) {
+//                        var centroid = calculateCentroid(polygonPoints);
+//                        appendToCentralPointModel(centroid.x, centroid.y);
+
+                        var qmlPolygon = centoidCalc.createPolygon(polygonPoints);
+                        var centroid2 = centoidCalc.calculateCentroid(qmlPolygon);
+                        appendToCentralPointModel(centroid2.y, centroid2.x);
+
+                        var cenroid3 = centoidCalc.calculateInnerCentoid(qmlPolygon, 100000)
+                        appendToCentralPointModel(cenroid3.y, cenroid3.x);
+
+//                        var cenroid4 = centoidCalc.calculateGeodesicCentroid(qmlPolygon)
+//                        console.log("calculateGeodesicCentroid" +cenroid4.longitude )
+//                        appendToCentralPointModel(cenroid4.x, cenroid4.y);
+
+//                        var cenroid5 = centoidCalc.calculateInteriorPoint(qmlPolygon)
+//                        console.log("calculateInteriorPoint" +cenroid5.x )
+//                        appendToCentralPointModel(cenroid5.x, cenroid5.y);
+
+//                        var cenroid6 = centoidCalc.calculateCentroid2(qmlPolygon)
+//                        appendToCentralPointModel(cenroid6.x, cenroid6.y);
+
+//                        var cenroid7 = centoidCalc.calculateCentroid3(qmlPolygon)
+//                        appendToCentralPointModel(cenroid7.x, cenroid7.y);
+                    }
+                    butCenterPoligon.scale = 1;
                 }
             }
         }

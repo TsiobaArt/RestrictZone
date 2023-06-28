@@ -17,7 +17,8 @@ public:
     Q_INVOKABLE QPointF calculateGeodesicCentroid (const QPolygonF &polygon);
     Q_INVOKABLE QPolygonF createPolygon(const QVariantList& points);
     Q_INVOKABLE QPointF calculateInteriorPoint(const QPolygonF &polygon);
-
+    Q_INVOKABLE QPointF calculateCentroid2(const QPolygonF& polygon);
+    Q_INVOKABLE QPointF calculateCentroid3(const QPolygonF& polygon);
 signals:
 
 };
